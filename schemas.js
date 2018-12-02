@@ -19,6 +19,10 @@ type User {
   favorites: [Recipe]
 }
 
+type Token {
+    toke: String!
+}
+
 type Query {
     getAllRecipes: [Recipe]
 }
@@ -31,5 +35,11 @@ type Mutation {
         instructions: String!
         username: String
     ): Recipe
+
+    singupUser(
+        username: String!,
+        email: String!,
+        password: String!
+    ): Token
 }
 `
