@@ -20,11 +20,12 @@ type User {
 }
 
 type Token {
-    toke: String!
+    token: String!
 }
 
 type Query {
-    getAllRecipes: [Recipe]
+    getAllRecipes: [Recipe],
+    getCurrentUser: User
 }
 
 type Mutation {
@@ -36,10 +37,15 @@ type Mutation {
         username: String
     ): Recipe
 
-    singupUser(
-        username: String!,
-        email: String!,
+    signInUser(
+        username: String!
+        password: String!
+    ): Token
+
+    signUpUser(
+        username: String!
+        email: String!
         password: String!
     ): Token
 }
-`
+`;
