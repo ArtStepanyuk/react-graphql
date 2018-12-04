@@ -37,10 +37,11 @@ app.use(async (req, res, next) => {
       const currentUser = await jwt.verify(token, SECRET);
       req.currentUser = currentUser;
     } catch (error) {
+      res.send({ error });
       console.log(error);
     }
   }
-  return next();
+  next();
 });
 
 // creates graphql app
