@@ -14,7 +14,61 @@ export const GET_ALL_RECIPES = gql`
     }
   }
 `;
+
+export const SEARCH_RECIPES = gql`
+  query($searchTerm: String) {
+    searchRecipes(searchTerm: $searchTerm) {
+      _id
+      name
+      category
+      description
+      instructions
+      createdDate
+      likes
+    }
+  }
+`;
+
+export const GET_RECIPE = gql`
+  query($_id: ID!) {
+    getRecipe(_id: $_id) {
+      _id
+      likes
+      name
+      username
+      instructions
+      category
+      username
+    }
+  }
+`;
 //Recipes mutations
+
+export const CRETE_RECIPE = gql`
+  mutation(
+    $instructions: String!
+    $name: String!
+    $username: String!
+    $category: String!
+    $description: String!
+  ) {
+    addRecipe(
+      name: $name
+      username: $username
+      instructions: $instructions
+      category: $category
+      description: $description
+    ) {
+      instructions
+      _id
+      likes
+      name
+      username
+      instructions
+      category
+    }
+  }
+`;
 
 // Users queries
 

@@ -16,7 +16,28 @@ const createToken = (user, secret, expiresIn = "1h") => {
 
 exports.resolvers = {
   Query: {
-    getAllRecipes: async (root, args, { Recipe }) => Recipe.find(),
+    getAllRecipes: async (root, args, { Recipe }) =>
+      Recipe.find().sort({ createdDate: "desc" }),
+    getRecipe: async (root, { _id }, { Recipe }) => Recipe.findOne({ _id }),
+    searchRecipes: async (root, { searchTerm }, { Recipe }) => {
+      console.log("ebaaaa");
+      if (searchTerm) {
+        return await Recipe.find(
+          {
+            $text: {
+              $search: searchTerm
+            }
+          },
+          {
+            score: { $meta: "textScore" } // creates new fields for optimization of sorting
+          }
+        ).sort({
+          score: { $meta: "textScore" }
+        });
+      } else {
+        return await Recipe.find().sort({ likes: "desc", createdDate: "desc" });
+      }
+    },
     getCurrentUser: async (root, args, { currentUser, User }) => {
       if (!currentUser) {
         return null;

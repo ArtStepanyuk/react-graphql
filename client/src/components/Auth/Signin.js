@@ -13,6 +13,7 @@ import { SIGN_IN_USER } from "../../queries/index";
 import { Mutation } from "react-apollo";
 import Error from "../../common/Error";
 import { withRouter } from "react-router-dom";
+
 const initialState = {
   username: "",
   password: ""
