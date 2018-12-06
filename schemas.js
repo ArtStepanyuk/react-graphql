@@ -25,6 +25,7 @@ type Token {
 
 type Query {
     getAllRecipes: [Recipe]
+    getUserRecipes(username: String!): [Recipe]
     getRecipe(_id: ID!): Recipe
     searchRecipes(searchTerm: String): [Recipe]
     getCurrentUser: User
@@ -49,5 +50,9 @@ type Mutation {
         email: String!
         password: String!
     ): Token
+
+    deleteRecipe(
+        _id: ID!
+    ): Recipe
 }
 `;

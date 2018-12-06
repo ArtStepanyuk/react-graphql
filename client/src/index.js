@@ -7,7 +7,7 @@ import Signup from "./components/Auth/Signup";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import withSession from "./components/withSession";
+import withSession from "./components/HOCS/withSession";
 import Navbar from "./common/Navbar";
 import Search from "./components/Recipe/Search";
 import AddRecipe from "./components/Recipe/AddRecipe";
@@ -44,7 +44,7 @@ const Root = ({ refetch, session }) => (
     <Fragment>
       <Navbar session={session} />
       <Switch>
-        <Route path="/" exact component={App} />
+        <Route path="/" exact render={() => <App session={session} />} />
         <Route path="/search" exact component={Search} />
         <Route
           path="/recipe/add"
@@ -52,7 +52,7 @@ const Root = ({ refetch, session }) => (
           render={() => <AddRecipe session={session} />}
         />
         <Route path="/recipe/:id" exact component={RecipePage} />
-        <Route path="/profile" exact component={Profile} />
+        <Route path="/profile" render={() => <Profile session={session} />} />
         <Route path="/signin" render={() => <Signin refetch={refetch} />} />
         <Route path="/signup" render={() => <Signup refetch={refetch} />} />
         <Redirect to="/" />

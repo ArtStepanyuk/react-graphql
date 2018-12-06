@@ -22,7 +22,7 @@ const UserSchema = new Schema({
     default: new Date()
   },
   favorites: {
-    type: [Schema.Types.Object.id],
+    type: [Schema.Types.ObjectId],
     ref: "Recipe"
   }
 });

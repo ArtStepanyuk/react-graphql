@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 import { Nav, NavLink, NavItem } from "reactstrap";
-import styles from "./Navbar.module.css";
+import styles from "./Navbar.module.scss";
 import { Link } from "react-router-dom";
 import SignOut from "../components/Auth/SignOut";
 // functional component example
-// ToDo: implement sign with apoloClinetWrapper
+
 const allLinks = [
   {
     name: "Home",
@@ -54,11 +54,12 @@ const allLinks = [
 ];
 const prepareNavLinks = session => {
   const linksForUser = allLinks.filter(link => {
-    return (
-      link.permission === "public" ||
-      (link.permission === "authorized" && session && session.getCurrentUser) ||
-      (link.permission === "unAuthorized" && session && !session.getCurrentUser)
-    );
+    const userAuthorized =
+      link.permission === "authorized" && session && session.getCurrentUser;
+    const userUnAuthorized =
+      link.permission === "unAuthorized" && session && !session.getCurrentUser;
+    const linkPublic = link.permission === "public";
+    return linkPublic || userAuthorized || userUnAuthorized;
   });
 
   return linksForUser.map(link => (

@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { SECRET } = require("./config/constants");
-
+const mongoose = require("mongoose");
 const createToken = (user, secret, expiresIn = "1h") => {
   const { username, email } = user;
   return jwt.sign(
@@ -18,6 +18,8 @@ exports.resolvers = {
   Query: {
     getAllRecipes: async (root, args, { Recipe }) =>
       Recipe.find().sort({ createdDate: "desc" }),
+    getUserRecipes: async (root, { username }, { Recipe }) =>
+      Recipe.find({ username }).sort({ createdDate: "desc" }),
     getRecipe: async (root, { _id }, { Recipe }) => Recipe.findOne({ _id }),
     searchRecipes: async (root, { searchTerm }, { Recipe }) => {
       console.log("ebaaaa");
@@ -69,6 +71,8 @@ exports.resolvers = {
       console.log(newRecipe);
       return newRecipe;
     },
+    deleteRecipe: async (root, { _id }, { Recipe }) =>
+      Recipe.remove({ _id: mongoose.Types.ObjectId(_id) }),
     signInUser: async (root, userObj, { User }) => {
       const user = await User.findOne({ username: userObj.username });
       if (!user) {

@@ -11,6 +11,22 @@ export const GET_ALL_RECIPES = gql`
       instructions
       createdDate
       likes
+      username
+    }
+  }
+`;
+
+export const GET_USER_RECIPES = gql`
+  query($username: String!) {
+    getUserRecipes(username: $username) {
+      _id
+      name
+      category
+      description
+      instructions
+      createdDate
+      likes
+      username
     }
   }
 `;
@@ -43,6 +59,14 @@ export const GET_RECIPE = gql`
   }
 `;
 //Recipes mutations
+
+export const DELETE_RECIPE = gql`
+  mutation($_id: ID!) {
+    deleteRecipe(_id: $_id) {
+      _id
+    }
+  }
+`;
 
 export const CRETE_RECIPE = gql`
   mutation(
@@ -77,6 +101,11 @@ export const GET_CURRENT_USER = gql`
     getCurrentUser {
       username
       email
+      joinDate
+      favorites {
+        _id
+        name
+      }
     }
   }
 `;

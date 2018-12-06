@@ -1,8 +1,8 @@
 import React from "react";
-import { Query } from "react-apollo";
 import { SEARCH_RECIPES } from "../../queries";
-import { Link } from "react-router-dom";
 import { ApolloConsumer } from "react-apollo";
+import RecipeItem from "./RecipeItem";
+import { Row, Col } from "reactstrap";
 
 export default class Search extends React.Component {
   state = {
@@ -13,7 +13,6 @@ export default class Search extends React.Component {
   handleChange({ searchRecipes }) {
     this.setState(() => ({ recipes: searchRecipes }));
   }
-
 
 
   render() {
@@ -33,16 +32,13 @@ export default class Search extends React.Component {
                 this.handleChange(data);
               }}
             />
-            <ul>
+            <Row>
               {recipes.map(recipe => (
-                <li key={recipe._id}>
-                  <Link to={`/recipe/${recipe._id}`}>
-                    <h4>name: {recipe.name}</h4>
-                  </Link>
-                  <p>{recipe.likes}</p>
-                </li>
+                <Col sm="4" key={recipe._id}>
+                  <RecipeItem {...recipe} />
+                </Col>
               ))}
-            </ul>
+            </Row>
           </div>
         )}
       </ApolloConsumer>

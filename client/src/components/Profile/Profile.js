@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import UserInfo from "./UserInfo";
+import withAuth from "../HOCS/withAuth";
 
-export default function Profile() {
+const Profile = function({ session }) {
   return (
     <div>
-      Profile
+      <UserInfo session={session} />
     </div>
-  )
-}
+  );
+};
+
+export default withAuth(session => session && session.getCurrentUser)(Profile);
