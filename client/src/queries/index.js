@@ -1,4 +1,5 @@
 import { gql } from "apollo-boost";
+// ToDo: create fragments to avoid repeats in return types
 
 // Recipes Queries
 export const GET_ALL_RECIPES = gql`
@@ -68,6 +69,22 @@ export const DELETE_RECIPE = gql`
   }
 `;
 
+export const LIKE_RECIPE = gql`
+  mutation($recipeId: ID!, $userId: ID!) {
+    likeRecipe(recipeId: $recipeId, userId: $userId) {
+      _id
+    }
+  }
+`;
+
+export const UN_LIKE_RECIPE = gql`
+  mutation($recipeId: ID!, $userId: ID!) {
+    unLikeRecipe(recipeId: $recipeId, userId: $userId) {
+      _id
+    }
+  }
+`;
+
 export const CRETE_RECIPE = gql`
   mutation(
     $instructions: String!
@@ -99,6 +116,7 @@ export const CRETE_RECIPE = gql`
 export const GET_CURRENT_USER = gql`
   query {
     getCurrentUser {
+      _id
       username
       email
       joinDate

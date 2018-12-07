@@ -9,7 +9,11 @@ import {
   Row,
   Col
 } from "reactstrap";
-import { CRETE_RECIPE, GET_ALL_RECIPES } from "../../queries/index";
+import {
+  CRETE_RECIPE,
+  GET_ALL_RECIPES,
+  GET_CURRENT_USER
+} from "../../queries/index";
 import { Mutation } from "react-apollo";
 import Error from "../../common/Error";
 import { withRouter } from "react-router-dom";
@@ -70,7 +74,6 @@ class AddRecipe extends Component {
     });
   };
 
-
   render() {
     const { name, username, instructions, description, category } = this.state;
     return (
@@ -87,6 +90,7 @@ class AddRecipe extends Component {
                 category,
                 description
               }}
+              refetchQueries={() => [{ query: GET_CURRENT_USER }]}
               update={this.updateCache}
             >
               {(addRecipe, { data, loading, error }) => {

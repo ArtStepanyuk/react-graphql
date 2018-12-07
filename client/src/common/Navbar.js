@@ -12,11 +12,6 @@ const allLinks = [
     permission: "public"
   },
   {
-    name: "Recipes",
-    url: "/recipe",
-    permission: "authorized"
-  },
-  {
     name: "Add Recipe",
     url: "/recipe/add",
     permission: "authorized"
@@ -40,11 +35,6 @@ const allLinks = [
     name: "Sign up",
     url: "/signup",
     permission: "unAuthorized"
-  },
-  {
-    name: "Sign out",
-    url: "/signout",
-    permission: "authorized"
   },
   {
     name: "Profile",

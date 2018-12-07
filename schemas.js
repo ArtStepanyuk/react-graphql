@@ -6,7 +6,7 @@ type Recipe {
     description: String!
     instructions: String!
     createdDate: String
-    likes: Int
+    likes: [ID!]
     username: String
 }
 
@@ -50,6 +50,16 @@ type Mutation {
         email: String!
         password: String!
     ): Token
+
+    likeRecipe(
+        recipeId: ID!
+        userId: ID!
+    ): Recipe
+
+    unLikeRecipe(
+        recipeId: ID!
+        userId: ID!
+    ): Recipe
 
     deleteRecipe(
         _id: ID!

@@ -2,7 +2,12 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { compose } from "recompose";
 import { Mutation } from "react-apollo";
-import { DELETE_RECIPE } from "../../queries";
+
+import {
+  DELETE_RECIPE,
+  GET_ALL_RECIPES,
+  GET_CURRENT_USER
+} from "../../queries";
 import {
   Card,
   CardText,
@@ -21,7 +26,8 @@ const RecipeItem = function({
   instructions,
   history,
   username,
-  currentUser
+  currentUser,
+  onUpdateList
 }) {
   const gotToDetails = () => {
     history.push(`/recipe/${_id}`);
@@ -40,11 +46,17 @@ const RecipeItem = function({
         <CardText>instructions: {instructions}</CardText>
         <Button onClick={gotToDetails}>Go to details</Button>
         {currentUser === username && (
+          //ToDo brake to separate component
           <Mutation
             mutation={DELETE_RECIPE}
             variables={{
               _id
             }}
+            refetchQueries={() => [
+              { query: GET_ALL_RECIPES },
+              { query: GET_CURRENT_USER }
+            ]}
+            update={onUpdateList}
           >
             {(deleteRecipe, { loading }) => {
               if (loading) return <div>Loading...</div>;
@@ -57,7 +69,6 @@ const RecipeItem = function({
           </Mutation>
         )}
       </CardBody>
-      <CardFooter>Likes : {likes}</CardFooter>
     </Card>
   );
 };

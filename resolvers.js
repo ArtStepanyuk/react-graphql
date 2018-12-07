@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { SECRET } = require("./config/constants");
 const mongoose = require("mongoose");
+const { uniq } = require("lodash");
+
 const createToken = (user, secret, expiresIn = "1h") => {
   const { username, email } = user;
   return jwt.sign(
@@ -72,7 +74,7 @@ exports.resolvers = {
       return newRecipe;
     },
     deleteRecipe: async (root, { _id }, { Recipe }) =>
-      Recipe.remove({ _id: mongoose.Types.ObjectId(_id) }),
+      Recipe.findOneAndRemove({ _id: mongoose.Types.ObjectId(_id) }),
     signInUser: async (root, userObj, { User }) => {
       const user = await User.findOne({ username: userObj.username });
       if (!user) {
@@ -100,6 +102,20 @@ exports.resolvers = {
         }).save();
         return { token: createToken(newUser, SECRET) };
       }
+    },
+    likeRecipe: async (root, { userId, recipeId }, { Recipe }) => {
+      const recipe = await Recipe.findOne({ _id: recipeId });
+      const likesItems = new Set([...recipe.likes]);
+      likesItems.add(userId);
+      recipe.likes = [...likesItems];
+      return recipe.save();
+    },
+    unLikeRecipe: async (root, { userId, recipeId }, { Recipe }) => {
+      const recipe = await Recipe.findOne({ _id: recipeId });
+      recipe.likes = recipe.likes.filter(
+        currentUserIds => currentUserIds !== userId
+      );
+      return recipe.save();
     }
   }
 };
