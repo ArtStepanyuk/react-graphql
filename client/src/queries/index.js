@@ -1,63 +1,40 @@
 import { gql } from "apollo-boost";
-// ToDo: create fragments to avoid repeats in return types
-
+import { recipeFragments } from "./fragments";
 // Recipes Queries
 export const GET_ALL_RECIPES = gql`
   query {
     getAllRecipes {
-      _id
-      name
-      category
-      description
-      instructions
-      createdDate
-      likes
-      username
+      ...CompleteRecipe
     }
   }
+  ${recipeFragments.recipe}
 `;
 
 export const GET_USER_RECIPES = gql`
   query($username: String!) {
     getUserRecipes(username: $username) {
-      _id
-      name
-      category
-      description
-      instructions
-      createdDate
-      likes
-      username
+      ...CompleteRecipe
     }
   }
+  ${recipeFragments.recipe}
 `;
 
 export const SEARCH_RECIPES = gql`
   query($searchTerm: String) {
     searchRecipes(searchTerm: $searchTerm) {
-      _id
-      name
-      category
-      description
-      instructions
-      createdDate
-      likes
+      ...CompleteRecipe
     }
   }
+  ${recipeFragments.recipe}
 `;
 
 export const GET_RECIPE = gql`
   query($_id: ID!) {
     getRecipe(_id: $_id) {
-      _id
-      likes
-      name
-      username
-      instructions
-      category
-      username
+      ...CompleteRecipe
     }
   }
+  ${recipeFragments.recipe}
 `;
 //Recipes mutations
 
@@ -92,23 +69,20 @@ export const CRETE_RECIPE = gql`
     $username: String!
     $category: String!
     $description: String!
+    $imageUrl: String!
   ) {
     addRecipe(
       name: $name
+      imageUrl: $imageUrl
       username: $username
       instructions: $instructions
       category: $category
       description: $description
     ) {
-      instructions
-      _id
-      likes
-      name
-      username
-      instructions
-      category
+      ...CompleteRecipe
     }
   }
+  ${recipeFragments.recipe}
 `;
 
 // Users queries

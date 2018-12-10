@@ -60,7 +60,7 @@ exports.resolvers = {
      */
     addRecipe: async (
       root,
-      { name, category, description, instructions, username },
+      { name, category, description, instructions, username, imageUrl },
       { Recipe }
     ) => {
       const newRecipe = await new Recipe({
@@ -68,7 +68,8 @@ exports.resolvers = {
         category,
         description,
         instructions,
-        username
+        username,
+        imageUrl
       }).save();
       console.log(newRecipe);
       return newRecipe;

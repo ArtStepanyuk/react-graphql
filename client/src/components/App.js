@@ -3,7 +3,8 @@ import { Query } from "react-apollo";
 import { GET_ALL_RECIPES } from "../queries/index";
 import RecipeItem from "./Recipe/RecipeItem.js";
 import "./App.css";
-import { Card, Row, Col } from "reactstrap";
+import { Row, Col } from "reactstrap";
+import Spinner from  './Spinner.js'
 // ToDo: recipe item component
 
 const App = ({session}) => (
@@ -11,7 +12,7 @@ const App = ({session}) => (
     <h1>Home</h1>
     <Query query={GET_ALL_RECIPES}>
       {({ data, loading, error }) => {
-        if (loading) return <div>Loading...</div>;
+        if (loading) return <Spinner/>
         if (error) return <div>Error...</div>;
         console.log(data.getAllRecipes);
         if (data && data.getAllRecipes) {

@@ -3,6 +3,7 @@ import { GET_USER_RECIPES } from "../../queries";
 import React, { Fragment } from "react";
 import RecipeItem from "../Recipe/RecipeItem";
 import { Row, Col } from "reactstrap";
+import Spinner from "../Spinner"
 
 const UserRecipes = function({ username }) {
   const updateList = (cache, { data: { deleteRecipe } }) => {
@@ -22,7 +23,7 @@ const UserRecipes = function({ username }) {
   return (
     <Query query={GET_USER_RECIPES} variables={{ username }}>
       {({ loading, data, error }) => {
-        if (loading) return <div>Loading...</div>;
+        if (loading) return <Spinner/>
         if (error) return <div>Error...</div>;
         console.log(data.getUserRecipes);
         return (

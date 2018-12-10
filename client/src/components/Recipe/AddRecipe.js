@@ -16,6 +16,7 @@ import {
 } from "../../queries/index";
 import { Mutation } from "react-apollo";
 import Error from "../../common/Error";
+import Spinner from "../Spinner";
 import { withRouter } from "react-router-dom";
 
 const initialState = {
@@ -23,7 +24,8 @@ const initialState = {
   username: "",
   instructions: "",
   category: "",
-  description: ""
+  description: "",
+  imageUrl: ""
 };
 
 class AddRecipe extends Component {
@@ -75,9 +77,16 @@ class AddRecipe extends Component {
   };
 
   render() {
-    const { name, username, instructions, description, category } = this.state;
+    const {
+      name,
+      username,
+      instructions,
+      description,
+      category,
+      imageUrl
+    } = this.state;
     return (
-      <Container>
+      <Container className="mt-5">
         <Row>
           <Col md={{ size: 6, offset: 3 }}>
             <h1>Create recipe</h1>
@@ -88,13 +97,14 @@ class AddRecipe extends Component {
                 username,
                 instructions,
                 category,
-                description
+                description,
+                imageUrl
               }}
               refetchQueries={() => [{ query: GET_CURRENT_USER }]}
               update={this.updateCache}
             >
               {(addRecipe, { data, loading, error }) => {
-                if (loading) return <div>Loading...</div>;
+                if (loading) return <Spinner />;
                 return (
                   <Form onSubmit={event => this.handleSubmit(event, addRecipe)}>
                     <FormGroup>
@@ -120,6 +130,17 @@ class AddRecipe extends Component {
                       />
                     </FormGroup>
                     <FormGroup>
+                      <Label for="imageUrl">image url</Label>
+                      <Input
+                        type="text"
+                        name="imageUrl"
+                        value={imageUrl}
+                        onChange={this.handleChanges}
+                        id="instructions"
+                        placeholder="imageUrl url"
+                      />
+                    </FormGroup>
+                    <FormGroup>
                       <Label for="description">description</Label>
                       <Input
                         type="text"
@@ -131,6 +152,7 @@ class AddRecipe extends Component {
                       />
                     </FormGroup>
                     <FormGroup tag="fieldset">
+                      <legend className="col-form-label">Category</legend>
                       <FormGroup check>
                         <Label check>
                           <Input
@@ -154,15 +176,22 @@ class AddRecipe extends Component {
                         </Label>
                       </FormGroup>
                     </FormGroup>
-                    <Button
-                      disabled={loading || !this.formIsValid()}
-                      onClick={this.onSubmit}
-                    >
-                      Submit
-                    </Button>
-                    <Button disabled={loading} onClick={this.cancel}>
-                      Clear
-                    </Button>
+                    <Row>
+                      <Col>
+                        <Button
+                          block
+                          disabled={loading || !this.formIsValid()}
+                          onClick={this.onSubmit}
+                        >
+                          Submit
+                        </Button>{" "}
+                      </Col>
+                      <Col>
+                        <Button block disabled={loading} onClick={this.cancel}>
+                          Clear
+                        </Button>
+                      </Col>
+                    </Row>
                     {error && (
                       <div>
                         <Error error={error} />

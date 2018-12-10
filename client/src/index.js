@@ -15,6 +15,7 @@ import RecipePage from "./components/Recipe/RecipePage";
 import Profile from "./components/Profile/Profile";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
 const uri = "http://localhost:4444/graphql";
 const client = new ApolloClient({
   uri,

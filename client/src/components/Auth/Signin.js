@@ -13,6 +13,7 @@ import { SIGN_IN_USER } from "../../queries/index";
 import { Mutation } from "react-apollo";
 import Error from "../../common/Error";
 import { withRouter } from "react-router-dom";
+import Spinner from '../Spinner'
 
 const initialState = {
   username: "",
@@ -64,7 +65,7 @@ class Signin extends Component {
               }}
             >
               {(signInUser, { data, loading, error }) => {
-                if (loading) return <div>Loading...</div>;
+                if (loading) return <Spinner/>
                 return (
                   <Form
                     onSubmit={event => this.handleSubmit(event, signInUser)}

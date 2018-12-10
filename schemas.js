@@ -6,6 +6,7 @@ type Recipe {
     description: String!
     instructions: String!
     createdDate: String
+    imageUrl: String
     likes: [ID!]
     username: String
 }
@@ -37,7 +38,8 @@ type Mutation {
         category: String!
         description: String!
         instructions: String!
-        username: String
+        username: String!
+        imageUrl: String!
     ): Recipe
 
     signInUser(

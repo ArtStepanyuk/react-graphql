@@ -1,7 +1,7 @@
-import React from "react";
 import RecipeItem from "../Recipe/RecipeItem";
 import UserRecipes from "./UserRecipes";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Jumbotron } from "reactstrap";
+import React, { Fragment } from "react";
 
 export default function UserInfo({
   session: {
@@ -9,25 +9,28 @@ export default function UserInfo({
   }
 }) {
   return (
-    <div>
-      <div>{username}</div>
-      <div>{joinDate}</div>
-      <div>{email}</div>
-      <div>Favorites </div>
+    <Fragment>
+      <Jumbotron>
+        <h1 className="display-3">{username}</h1>
+        <p className="lead">{joinDate}</p>
+        <hr className="my-2" />
+        <p>{email}</p>
+      </Jumbotron>
+      <div className="ml-3">Favorites </div>
       {favorites.length > 0 ? (
         <Row>
           {favorites.map(recipe => (
             <Col sm="4" key={recipe._id}>
-              <RecipeItem recipe={recipe}/>
+              <RecipeItem recipe={recipe} />
             </Col>
           ))}
         </Row>
       ) : (
-        <div>
+        <div className="ml-3">
           <b>Go add some</b>
         </div>
       )}
       <UserRecipes username={username} />
-    </div>
+    </Fragment>
   );
 }

@@ -15,19 +15,22 @@ import {
   CardTitle,
   Button,
   CardHeader,
-  CardFooter
+  CardImg,
+  Col,
+  Row
 } from "reactstrap";
+import Spinner from "../Spinner";
 
 const RecipeItem = function({
   _id,
   name,
   category,
-  likes,
   instructions,
   history,
   username,
   currentUser,
-  onUpdateList
+  onUpdateList,
+  imageUrl
 }) {
   const gotToDetails = () => {
     history.push(`/recipe/${_id}`);
@@ -40,34 +43,43 @@ const RecipeItem = function({
 
   return (
     <Card className="m-3">
+      <CardImg top width="100%" src={imageUrl} alt="Recipe imageUrl" />
       <CardHeader>{name}</CardHeader>
       <CardBody>
         <CardTitle>Category : {category}</CardTitle>
         <CardText>instructions: {instructions}</CardText>
-        <Button onClick={gotToDetails}>Go to details</Button>
-        {currentUser === username && (
-          //ToDo brake to separate component
-          <Mutation
-            mutation={DELETE_RECIPE}
-            variables={{
-              _id
-            }}
-            refetchQueries={() => [
-              { query: GET_ALL_RECIPES },
-              { query: GET_CURRENT_USER }
-            ]}
-            update={onUpdateList}
-          >
-            {(deleteRecipe, { loading }) => {
-              if (loading) return <div>Loading...</div>;
-              return (
-                <Button onClick={() => handleDelete(deleteRecipe)}>
-                  Delete item
-                </Button>
-              );
-            }}
-          </Mutation>
-        )}
+        <Row>
+          <Col>
+            <Button onClick={gotToDetails} block>
+              Go to details
+            </Button>
+          </Col>
+          <Col>
+            {currentUser === username && (
+              //ToDo brake to separate component
+              <Mutation
+                mutation={DELETE_RECIPE}
+                variables={{
+                  _id
+                }}
+                refetchQueries={() => [
+                  { query: GET_ALL_RECIPES },
+                  { query: GET_CURRENT_USER }
+                ]}
+                update={onUpdateList}
+              >
+                {(deleteRecipe, { loading }) => {
+                  if (loading) return <Spinner />;
+                  return (
+                    <Button onClick={() => handleDelete(deleteRecipe)} block>
+                      Delete item
+                    </Button>
+                  );
+                }}
+              </Mutation>
+            )}
+          </Col>
+        </Row>
       </CardBody>
     </Card>
   );

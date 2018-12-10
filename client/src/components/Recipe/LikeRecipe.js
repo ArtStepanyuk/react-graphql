@@ -8,6 +8,7 @@ import {
   UN_LIKE_RECIPE
 } from "../../queries";
 import { Button } from "reactstrap";
+import Spinner from "../Spinner";
 
 class LikeRecipe extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ class LikeRecipe extends Component {
               refetchQueries={() => this.refetchQueries}
             >
               {(fn, { loading }) => {
-                if (loading) return <div>Loading...</div>;
+                if (loading) return <Spinner />;
                 return this.getButtonHandler(fn, this.recipeLiked());
               }}
             </Mutation>
